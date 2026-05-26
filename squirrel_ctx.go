@@ -1,3 +1,4 @@
+//go:build go1.8
 // +build go1.8
 
 package squirrel
@@ -44,7 +45,8 @@ type RunnerContext interface {
 // WrapStdSqlCtx wraps a type implementing the standard SQL interface plus the context
 // versions of the methods with methods that squirrel expects.
 func WrapStdSqlCtx(stdSqlCtx StdSqlCtx) RunnerContext {
-	return &stdsqlCtxRunner{stdSqlCtx}
+	_ = "STUB: not implemented"
+	return *new(RunnerContext)
 }
 
 // StdSqlCtx encompasses the standard methods of the *sql.DB type, along with the Context
@@ -61,33 +63,29 @@ type stdsqlCtxRunner struct {
 }
 
 func (r *stdsqlCtxRunner) QueryRow(query string, args ...interface{}) RowScanner {
-	return r.StdSqlCtx.QueryRow(query, args...)
+	_ = "STUB: not implemented"
+	return *new(RowScanner)
 }
 
 func (r *stdsqlCtxRunner) QueryRowContext(ctx context.Context, query string, args ...interface{}) RowScanner {
-	return r.StdSqlCtx.QueryRowContext(ctx, query, args...)
+	_ = "STUB: not implemented"
+	return *new(RowScanner)
 }
 
 // ExecContextWith ExecContexts the SQL returned by s with db.
 func ExecContextWith(ctx context.Context, db ExecerContext, s Sqlizer) (res sql.Result, err error) {
-	query, args, err := s.ToSql()
-	if err != nil {
-		return
-	}
-	return db.ExecContext(ctx, query, args...)
+	_ = "STUB: not implemented"
+	return *new(sql.Result), nil
 }
 
 // QueryContextWith QueryContexts the SQL returned by s with db.
 func QueryContextWith(ctx context.Context, db QueryerContext, s Sqlizer) (rows *sql.Rows, err error) {
-	query, args, err := s.ToSql()
-	if err != nil {
-		return
-	}
-	return db.QueryContext(ctx, query, args...)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // QueryRowContextWith QueryRowContexts the SQL returned by s with db.
 func QueryRowContextWith(ctx context.Context, db QueryRowerContext, s Sqlizer) RowScanner {
-	query, args, err := s.ToSql()
-	return &Row{RowScanner: db.QueryRowContext(ctx, query, args...), err: err}
+	_ = "STUB: not implemented"
+	return *new(RowScanner)
 }

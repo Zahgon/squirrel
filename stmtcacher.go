@@ -2,7 +2,6 @@ package squirrel
 
 import (
 	"database/sql"
-	"fmt"
 	"sync"
 )
 
@@ -37,70 +36,30 @@ type StmtCache struct {
 // Prepare delegates down to the underlying Preparer and caches the result
 // using the provided query as a key
 func (sc *StmtCache) Prepare(query string) (*sql.Stmt, error) {
-	sc.mu.Lock()
-	defer sc.mu.Unlock()
-
-	stmt, ok := sc.cache[query]
-	if ok {
-		return stmt, nil
-	}
-	stmt, err := sc.prep.Prepare(query)
-	if err == nil {
-		sc.cache[query] = stmt
-	}
-	return stmt, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // Exec delegates down to the underlying Preparer using a prepared statement
 func (sc *StmtCache) Exec(query string, args ...interface{}) (res sql.Result, err error) {
-	stmt, err := sc.Prepare(query)
-	if err != nil {
-		return
-	}
-	return stmt.Exec(args...)
+	_ = "STUB: not implemented"
+	return *new(sql.Result), nil
 }
 
 // Query delegates down to the underlying Preparer using a prepared statement
 func (sc *StmtCache) Query(query string, args ...interface{}) (rows *sql.Rows, err error) {
-	stmt, err := sc.Prepare(query)
-	if err != nil {
-		return
-	}
-	return stmt.Query(args...)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // QueryRow delegates down to the underlying Preparer using a prepared statement
 func (sc *StmtCache) QueryRow(query string, args ...interface{}) RowScanner {
-	stmt, err := sc.Prepare(query)
-	if err != nil {
-		return &Row{err: err}
-	}
-	return stmt.QueryRow(args...)
+	_ = "STUB: not implemented"
+	return *new(RowScanner)
 }
 
 // Clear removes and closes all the currently cached prepared statements
-func (sc *StmtCache) Clear() (err error) {
-	sc.mu.Lock()
-	defer sc.mu.Unlock()
-
-	for key, stmt := range sc.cache {
-		delete(sc.cache, key)
-
-		if stmt == nil {
-			continue
-		}
-
-		if cerr := stmt.Close(); cerr != nil {
-			err = cerr
-		}
-	}
-
-	if err != nil {
-		return fmt.Errorf("one or more Stmt.Close failed; last error: %v", err)
-	}
-
-	return
-}
+func (sc *StmtCache) Clear() (err error) { _ = "STUB: not implemented"; return nil }
 
 type DBProxyBeginner interface {
 	DBProxy
@@ -113,9 +72,8 @@ type stmtCacheProxy struct {
 }
 
 func NewStmtCacheProxy(db *sql.DB) DBProxyBeginner {
-	return &stmtCacheProxy{DBProxy: NewStmtCache(db), db: db}
+	_ = "STUB: not implemented"
+	return *new(DBProxyBeginner)
 }
 
-func (sp *stmtCacheProxy) Begin() (*sql.Tx, error) {
-	return sp.db.Begin()
-}
+func (sp *stmtCacheProxy) Begin() (*sql.Tx, error) { _ = "STUB: not implemented"; return nil, nil }

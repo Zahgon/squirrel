@@ -1,3 +1,4 @@
+//go:build go1.8
 // +build go1.8
 
 package squirrel
@@ -27,60 +28,37 @@ type DBProxyContext interface {
 // NewStmtCache returns a *StmtCache wrapping a PreparerContext that caches Prepared Stmts.
 //
 // Stmts are cached based on the string value of their queries.
-func NewStmtCache(prep PreparerContext) *StmtCache {
-	return &StmtCache{prep: prep, cache: make(map[string]*sql.Stmt)}
-}
+func NewStmtCache(prep PreparerContext) *StmtCache { _ = "STUB: not implemented"; return nil }
 
 // NewStmtCacher is deprecated
 //
 // Use NewStmtCache instead
 func NewStmtCacher(prep PreparerContext) DBProxyContext {
-	return NewStmtCache(prep)
+	_ = "STUB: not implemented"
+	return *new(DBProxyContext)
 }
 
 // PrepareContext delegates down to the underlying PreparerContext and caches the result
 // using the provided query as a key
 func (sc *StmtCache) PrepareContext(ctx context.Context, query string) (*sql.Stmt, error) {
-	ctxPrep, ok := sc.prep.(PreparerContext)
-	if !ok {
-		return nil, NoContextSupport
-	}
-	sc.mu.Lock()
-	defer sc.mu.Unlock()
-	stmt, ok := sc.cache[query]
-	if ok {
-		return stmt, nil
-	}
-	stmt, err := ctxPrep.PrepareContext(ctx, query)
-	if err == nil {
-		sc.cache[query] = stmt
-	}
-	return stmt, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // ExecContext delegates down to the underlying PreparerContext using a prepared statement
 func (sc *StmtCache) ExecContext(ctx context.Context, query string, args ...interface{}) (res sql.Result, err error) {
-	stmt, err := sc.PrepareContext(ctx, query)
-	if err != nil {
-		return
-	}
-	return stmt.ExecContext(ctx, args...)
+	_ = "STUB: not implemented"
+	return *new(sql.Result), nil
 }
 
 // QueryContext delegates down to the underlying PreparerContext using a prepared statement
 func (sc *StmtCache) QueryContext(ctx context.Context, query string, args ...interface{}) (rows *sql.Rows, err error) {
-	stmt, err := sc.PrepareContext(ctx, query)
-	if err != nil {
-		return
-	}
-	return stmt.QueryContext(ctx, args...)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // QueryRowContext delegates down to the underlying PreparerContext using a prepared statement
 func (sc *StmtCache) QueryRowContext(ctx context.Context, query string, args ...interface{}) RowScanner {
-	stmt, err := sc.PrepareContext(ctx, query)
-	if err != nil {
-		return &Row{err: err}
-	}
-	return stmt.QueryRowContext(ctx, args...)
+	_ = "STUB: not implemented"
+	return *new(RowScanner)
 }

@@ -1,11 +1,5 @@
 package squirrel
 
-import (
-	"bytes"
-	"fmt"
-	"strings"
-)
-
 // PlaceholderFormat is the interface that wraps the ReplacePlaceholders method.
 //
 // ReplacePlaceholders takes a SQL statement and replaces each question mark
@@ -39,76 +33,49 @@ var (
 type questionFormat struct{}
 
 func (questionFormat) ReplacePlaceholders(sql string) (string, error) {
-	return sql, nil
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
-func (questionFormat) debugPlaceholder() string {
-	return "?"
-}
+func (questionFormat) debugPlaceholder() string { _ = "STUB: not implemented"; return "" }
 
 type dollarFormat struct{}
 
 func (dollarFormat) ReplacePlaceholders(sql string) (string, error) {
-	return replacePositionalPlaceholders(sql, "$")
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
-func (dollarFormat) debugPlaceholder() string {
-	return "$"
-}
+func (dollarFormat) debugPlaceholder() string { _ = "STUB: not implemented"; return "" }
 
 type colonFormat struct{}
 
 func (colonFormat) ReplacePlaceholders(sql string) (string, error) {
-	return replacePositionalPlaceholders(sql, ":")
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
-func (colonFormat) debugPlaceholder() string {
-	return ":"
-}
+func (colonFormat) debugPlaceholder() string { _ = "STUB: not implemented"; return "" }
 
 type atpFormat struct{}
 
 func (atpFormat) ReplacePlaceholders(sql string) (string, error) {
-	return replacePositionalPlaceholders(sql, "@p")
+	_ = "STUB: not implemented"
+	return "", nil
 }
 
 func (atpFormat) debugPlaceholder() string {
-	return "@p"
+	_ = "STUB: not implemented"
+
+	// Placeholders returns a string with count ? placeholders joined with commas.
+	return ""
 }
 
-// Placeholders returns a string with count ? placeholders joined with commas.
-func Placeholders(count int) string {
-	if count < 1 {
-		return ""
-	}
-
-	return strings.Repeat(",?", count)[1:]
-}
+func Placeholders(count int) string { _ = "STUB: not implemented"; return "" }
 
 func replacePositionalPlaceholders(sql, prefix string) (string, error) {
-	buf := &bytes.Buffer{}
-	i := 0
-	for {
-		p := strings.Index(sql, "?")
-		if p == -1 {
-			break
-		}
-
-		if len(sql[p:]) > 1 && sql[p:p+2] == "??" { // escape ?? => ?
-			buf.WriteString(sql[:p])
-			buf.WriteString("?")
-			if len(sql[p:]) == 1 {
-				break
-			}
-			sql = sql[p+2:]
-		} else {
-			i++
-			buf.WriteString(sql[:p])
-			fmt.Fprintf(buf, "%s%d", prefix, i)
-			sql = sql[p+1:]
-		}
-	}
-
-	buf.WriteString(sql)
-	return buf.String(), nil
+	_ = "STUB: not implemented"
+	return "", nil
 }
+
+// escape ?? => ?

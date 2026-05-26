@@ -1,3 +1,4 @@
+//go:build go1.8
 // +build go1.8
 
 package squirrel
@@ -5,65 +6,43 @@ package squirrel
 import (
 	"context"
 	"database/sql"
-
-	"github.com/lann/builder"
 )
 
 func (d *updateData) ExecContext(ctx context.Context) (sql.Result, error) {
-	if d.RunWith == nil {
-		return nil, RunnerNotSet
-	}
-	ctxRunner, ok := d.RunWith.(ExecerContext)
-	if !ok {
-		return nil, NoContextSupport
-	}
-	return ExecContextWith(ctx, ctxRunner, d)
+	_ = "STUB: not implemented"
+	return *new(sql.Result), nil
 }
 
 func (d *updateData) QueryContext(ctx context.Context) (*sql.Rows, error) {
-	if d.RunWith == nil {
-		return nil, RunnerNotSet
-	}
-	ctxRunner, ok := d.RunWith.(QueryerContext)
-	if !ok {
-		return nil, NoContextSupport
-	}
-	return QueryContextWith(ctx, ctxRunner, d)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (d *updateData) QueryRowContext(ctx context.Context) RowScanner {
-	if d.RunWith == nil {
-		return &Row{err: RunnerNotSet}
-	}
-	queryRower, ok := d.RunWith.(QueryRowerContext)
-	if !ok {
-		if _, ok := d.RunWith.(QueryerContext); !ok {
-			return &Row{err: RunnerNotQueryRunner}
-		}
-		return &Row{err: NoContextSupport}
-	}
-	return QueryRowContextWith(ctx, queryRower, d)
+	_ = "STUB: not implemented"
+	return *new(RowScanner)
 }
 
 // ExecContext builds and ExecContexts the query with the Runner set by RunWith.
 func (b UpdateBuilder) ExecContext(ctx context.Context) (sql.Result, error) {
-	data := builder.GetStruct(b).(updateData)
-	return data.ExecContext(ctx)
+	_ = "STUB: not implemented"
+	return *new(sql.Result), nil
 }
 
 // QueryContext builds and QueryContexts the query with the Runner set by RunWith.
 func (b UpdateBuilder) QueryContext(ctx context.Context) (*sql.Rows, error) {
-	data := builder.GetStruct(b).(updateData)
-	return data.QueryContext(ctx)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // QueryRowContext builds and QueryRowContexts the query with the Runner set by RunWith.
 func (b UpdateBuilder) QueryRowContext(ctx context.Context) RowScanner {
-	data := builder.GetStruct(b).(updateData)
-	return data.QueryRowContext(ctx)
+	_ = "STUB: not implemented"
+	return *new(RowScanner)
 }
 
 // ScanContext is a shortcut for QueryRowContext().Scan.
 func (b UpdateBuilder) ScanContext(ctx context.Context, dest ...interface{}) error {
-	return b.QueryRowContext(ctx).Scan(dest...)
+	_ = "STUB: not implemented"
+	return nil
 }

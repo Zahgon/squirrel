@@ -1,10 +1,7 @@
 package squirrel
 
 import (
-	"bytes"
 	"database/sql"
-	"fmt"
-	"strings"
 
 	"github.com/lann/builder"
 )
@@ -22,65 +19,13 @@ type deleteData struct {
 }
 
 func (d *deleteData) Exec() (sql.Result, error) {
-	if d.RunWith == nil {
-		return nil, RunnerNotSet
-	}
-	return ExecWith(d.RunWith, d)
+	_ = "STUB: not implemented"
+	return *new(sql.Result), nil
 }
 
 func (d *deleteData) ToSql() (sqlStr string, args []interface{}, err error) {
-	if len(d.From) == 0 {
-		err = fmt.Errorf("delete statements must specify a From table")
-		return
-	}
-
-	sql := &bytes.Buffer{}
-
-	if len(d.Prefixes) > 0 {
-		args, err = appendToSql(d.Prefixes, sql, " ", args)
-		if err != nil {
-			return
-		}
-
-		sql.WriteString(" ")
-	}
-
-	sql.WriteString("DELETE FROM ")
-	sql.WriteString(d.From)
-
-	if len(d.WhereParts) > 0 {
-		sql.WriteString(" WHERE ")
-		args, err = appendToSql(d.WhereParts, sql, " AND ", args)
-		if err != nil {
-			return
-		}
-	}
-
-	if len(d.OrderBys) > 0 {
-		sql.WriteString(" ORDER BY ")
-		sql.WriteString(strings.Join(d.OrderBys, ", "))
-	}
-
-	if len(d.Limit) > 0 {
-		sql.WriteString(" LIMIT ")
-		sql.WriteString(d.Limit)
-	}
-
-	if len(d.Offset) > 0 {
-		sql.WriteString(" OFFSET ")
-		sql.WriteString(d.Offset)
-	}
-
-	if len(d.Suffixes) > 0 {
-		sql.WriteString(" ")
-		args, err = appendToSql(d.Suffixes, sql, " ", args)
-		if err != nil {
-			return
-		}
-	}
-
-	sqlStr, err = d.PlaceholderFormat.ReplacePlaceholders(sql.String())
-	return
+	_ = "STUB: not implemented"
+	return "", nil, nil
 }
 
 // Builder
@@ -97,95 +42,92 @@ func init() {
 // PlaceholderFormat sets PlaceholderFormat (e.g. Question or Dollar) for the
 // query.
 func (b DeleteBuilder) PlaceholderFormat(f PlaceholderFormat) DeleteBuilder {
-	return builder.Set(b, "PlaceholderFormat", f).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // Runner methods
 
 // RunWith sets a Runner (like database/sql.DB) to be used with e.g. Exec.
 func (b DeleteBuilder) RunWith(runner BaseRunner) DeleteBuilder {
-	return setRunWith(b, runner).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // Exec builds and Execs the query with the Runner set by RunWith.
 func (b DeleteBuilder) Exec() (sql.Result, error) {
-	data := builder.GetStruct(b).(deleteData)
-	return data.Exec()
+	_ = "STUB: not implemented"
+	return *new(sql.Result), nil
 }
 
 // SQL methods
 
 // ToSql builds the query into a SQL string and bound args.
 func (b DeleteBuilder) ToSql() (string, []interface{}, error) {
-	data := builder.GetStruct(b).(deleteData)
-	return data.ToSql()
+	_ = "STUB: not implemented"
+	return "", nil, nil
 }
 
 // MustSql builds the query into a SQL string and bound args.
 // It panics if there are any errors.
-func (b DeleteBuilder) MustSql() (string, []interface{}) {
-	sql, args, err := b.ToSql()
-	if err != nil {
-		panic(err)
-	}
-	return sql, args
-}
+func (b DeleteBuilder) MustSql() (string, []interface{}) { _ = "STUB: not implemented"; return "", nil }
 
 // Prefix adds an expression to the beginning of the query
 func (b DeleteBuilder) Prefix(sql string, args ...interface{}) DeleteBuilder {
-	return b.PrefixExpr(Expr(sql, args...))
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // PrefixExpr adds an expression to the very beginning of the query
 func (b DeleteBuilder) PrefixExpr(expr Sqlizer) DeleteBuilder {
-	return builder.Append(b, "Prefixes", expr).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // From sets the table to be deleted from.
 func (b DeleteBuilder) From(from string) DeleteBuilder {
-	return builder.Set(b, "From", from).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // Where adds WHERE expressions to the query.
 //
 // See SelectBuilder.Where for more information.
 func (b DeleteBuilder) Where(pred interface{}, args ...interface{}) DeleteBuilder {
-	return builder.Append(b, "WhereParts", newWherePart(pred, args...)).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // OrderBy adds ORDER BY expressions to the query.
 func (b DeleteBuilder) OrderBy(orderBys ...string) DeleteBuilder {
-	return builder.Extend(b, "OrderBys", orderBys).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // Limit sets a LIMIT clause on the query.
 func (b DeleteBuilder) Limit(limit uint64) DeleteBuilder {
-	return builder.Set(b, "Limit", fmt.Sprintf("%d", limit)).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // Offset sets a OFFSET clause on the query.
 func (b DeleteBuilder) Offset(offset uint64) DeleteBuilder {
-	return builder.Set(b, "Offset", fmt.Sprintf("%d", offset)).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // Suffix adds an expression to the end of the query
 func (b DeleteBuilder) Suffix(sql string, args ...interface{}) DeleteBuilder {
-	return b.SuffixExpr(Expr(sql, args...))
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
 // SuffixExpr adds an expression to the end of the query
 func (b DeleteBuilder) SuffixExpr(expr Sqlizer) DeleteBuilder {
-	return builder.Append(b, "Suffixes", expr).(DeleteBuilder)
+	_ = "STUB: not implemented"
+	return *new(DeleteBuilder)
 }
 
-func (b DeleteBuilder) Query() (*sql.Rows, error) {
-	data := builder.GetStruct(b).(deleteData)
-	return data.Query()
-}
+func (b DeleteBuilder) Query() (*sql.Rows, error) { _ = "STUB: not implemented"; return nil, nil }
 
-func (d *deleteData) Query() (*sql.Rows, error) {
-	if d.RunWith == nil {
-		return nil, RunnerNotSet
-	}
-	return QueryWith(d.RunWith, d)
-}
+func (d *deleteData) Query() (*sql.Rows, error) { _ = "STUB: not implemented"; return nil, nil }
